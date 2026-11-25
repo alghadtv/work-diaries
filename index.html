@@ -407,7 +407,7 @@ function dayTxt(d){
  const x=dg(mo,d),dt=new Date(S.y,mo-1,d),sp='============',pad='                ';
  const blk=(l,a)=>a.length?l+': '+a[0]+a.slice(1).map(n=>'\n'+pad+n).join(''):'';
  const bl=[];
- CAMS.forEach((k,i)=>{const a=[...x[k],...x.mc[k].map(n=>n+' ('+(x.gv[n]||'مهمة خارجية')+')'),...x.mi[k].map(n=>n+' (مهمة داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')];if(a.length){const t=tmRaw(x,k),L=['كاميرا '+(i+1)+': '+a[0]],rest=a.slice(1);if(t)L.push('\u200F'+t+(rest.length?'   '+rest.shift():''));rest.forEach(n=>L.push(pad+n));bl.push(L.join('\n'))}});
+ CAMS.forEach((k,i)=>{const a=[...x[k],...x.mc[k].map(n=>n+' ('+(x.gv[n]||'مهمة خارجية')+')'),...x.mi[k].map(n=>n+' ('+(x.gi[n]||'مهمة داخلية')+')')];if(a.length){const t=tmRaw(x,k),L=['كاميرا '+(i+1)+': '+a[0]],rest=a.slice(1);if(t)L.push('\u200F'+t+(rest.length?'   '+rest.shift():''));rest.forEach(n=>L.push(pad+n));bl.push(L.join('\n'))}});
  const st=[['sm','ستوديو صباحي'],['se','ستوديو مسائي'],['sn','ستوديو مبيت']].map(([k,l])=>blk(l,x[k])).filter(Boolean);
  if(st.length)bl.push(st.join('\n'));
  {const ot=S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>n+': '+OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k,true)).join(' + '));if(ot.length)bl.push('مهام أخرى:\n'+ot.join('\n'))}

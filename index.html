@@ -96,10 +96,10 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 <script>
 const MN=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const WD=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const SL=[{k:'cam1',l:'كاميرا 1',p:'m'},{k:'cam2',l:'كاميرا 2',p:'m'},{k:'cam3',l:'كاميرا 3',p:'m'},{k:'sm',l:'ستوديو صباحي 9ص–5م',p:'m'},{k:'se',l:'ستوديو مسائي 5م–1ص',p:'e'},{k:'sn',l:'ستوديو مبيت 1ص–9ص (اليوم التالي)',p:'n'},{k:'inv1',l:'جرد معدات',p:'m'},{k:'inv2',l:'جرد عهدة',p:'m'},{k:'perm',l:'استخراج تصاريح',p:'m'},{k:'sb',l:'احتياطي stand by',p:'m'}];
+const SL=[{k:'cam1',l:'كاميرا 1',p:'m'},{k:'cam2',l:'كاميرا 2',p:'m'},{k:'cam3',l:'كاميرا 3',p:'m'},{k:'cam4',l:'كاميرا 4',p:'m'},{k:'cam5',l:'كاميرا 5',p:'m'},{k:'sm',l:'ستوديو صباحي 9ص–5م',p:'m'},{k:'se',l:'ستوديو مسائي 5م–1ص',p:'e'},{k:'sn',l:'ستوديو مبيت 1ص–9ص (اليوم التالي)',p:'n'},{k:'inv1',l:'جرد معدات',p:'m'},{k:'inv2',l:'جرد عهدة',p:'m'},{k:'perm',l:'استخراج تصاريح',p:'m'},{k:'sb',l:'احتياطي stand by',p:'m'}];
 const OT=['inv1','inv2','perm','sb'];
 const LT={a:'سنوية',e:'طارئة',s:'مرضية',c:'بدل راحة',m:'مهمة خارجية'};
-const CAMS=['cam1','cam2','cam3'];
+const CAMS=['cam1','cam2','cam3','cam4','cam5'],XC=['cam3','cam4','cam5'];
 const KEY='shiftapp1';
 let S=null;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 S=S||{staff:['مكي','عرسان','يحيى','حسام','حاتم','بيتر','محسن','وليد','جمال','علي'],data:{},allow:{a:21,e:6},y:2026};
@@ -110,15 +110,15 @@ if(!S.tpl)S.tpl=D7.map(([m,e])=>({m:m.split(' '),e:e.split(' ')}));
 const NM={'جمال':'مصور/ جمال الشيخ','حاتم':'مصور/ حاتم عبدالسلام','بيتر':'مصور/ بيتر وديع','مكي':'مصور/ احمد مكي','عرسان':'مصور/ عرسان رزق','محسن':'فني/ محسن عبد العاطي','حسام':'فني/ حسام صلاح','وليد':'فني/ وليد سيد','يحيى':'فني/ محمد يحيى','علي':'فني/ علي عبد العزيز'};
 if(S.v!==2){const f=n=>NM[n]||n,fa=a=>(a||[]).map(f),fo=o=>Object.fromEntries(Object.entries(o||{}).map(([k,v])=>[f(k),v]));
  S.staff=Object.values(NM);S.tpl.forEach(t=>{t.m=fa(t.m);t.e=fa(t.e)});
- Object.values(S.data).forEach(mm=>Object.values(mm).forEach(x=>{['rm','re','cam1','cam2','cam3','sm','se','sn','cl'].forEach(k=>{if(x[k])x[k]=fa(x[k])});if(x.mc)Object.keys(x.mc).forEach(k=>x.mc[k]=fa(x.mc[k]));['lv','gv','lr'].forEach(k=>{if(x[k])x[k]=fo(x[k])})}));
+ Object.values(S.data).forEach(mm=>Object.values(mm).forEach(x=>{['rm','re',...CAMS,'sm','se','sn','cl'].forEach(k=>{if(x[k])x[k]=fa(x[k])});if(x.mc)Object.keys(x.mc).forEach(k=>x.mc[k]=fa(x.mc[k]));['lv','gv','lr'].forEach(k=>{if(x[k])x[k]=fo(x[k])})}));
  S.v=2;save()}
 let mo=null,SH=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const blank=()=>({rm:[],re:[],cam1:[],cam2:[],cam3:[],sm:[],se:[],sn:[],inv1:[],inv2:[],perm:[],sb:[],lv:{},cl:[],gv:{},ct:{},lr:{},ot:{},mi:{cam1:[],cam2:[],cam3:[]},gi:{},mc:{cam1:[],cam2:[],cam3:[]},note:''});
+const blank=()=>({rm:[],re:[],cam1:[],cam2:[],cam3:[],cam4:[],cam5:[],sm:[],se:[],sn:[],inv1:[],inv2:[],perm:[],sb:[],lv:{},cl:[],gv:{},ct:{},lr:{},ot:{},mi:{cam1:[],cam2:[],cam3:[],cam4:[],cam5:[]},gi:{},mc:{cam1:[],cam2:[],cam3:[],cam4:[],cam5:[]},note:''});
 const key=m=>S.y+'-'+m;
 const dim=m=>new Date(S.y,m,0).getDate();
-const dgY=(y,m,d)=>{const o=Object.assign(blank(),(S.data[y+'-'+m]||{})[d]||{});SL.forEach(s=>{const v=o[s.k];if(!Array.isArray(v))o[s.k]=v?[v]:[]});if(Object.values(o.lv||{}).includes('m'))o.lv=Object.fromEntries(Object.entries(o.lv).filter(([q,t])=>t!=='m'));return o};
+const dgY=(y,m,d)=>{const o=Object.assign(blank(),(S.data[y+'-'+m]||{})[d]||{});SL.forEach(s=>{const v=o[s.k];if(!Array.isArray(v))o[s.k]=v?[v]:[]});['mi','mc'].forEach(q=>{o[q]=Object.assign(Object.fromEntries(CAMS.map(c=>[c,[]])),o[q]||{})});if(Object.values(o.lv||{}).includes('m'))o.lv=Object.fromEntries(Object.entries(o.lv).filter(([q,t])=>t!=='m'));return o};
 const dg=(m,d)=>dgY(S.y,m,d);
 const nxt=(m,d)=>{const t=new Date(S.y,m-1,d+1);return dgY(t.getFullYear(),t.getMonth()+1,t.getDate())};
 function dsY(y,m,d,x){const k=y+'-'+m;S.data[k]=S.data[k]||{};S.data[k][d]=x;save()}
@@ -131,12 +131,12 @@ function conf(x,nx,wd){
  SL.forEach(s=>{if(s.k!=='sn')x[s.k].forEach(n=>as.push([n,s.l]))});
  as.forEach(([n,l])=>{if(x.lv[n])r.add(n+' ('+LT[x.lv[n]]+') وعليه '+l)});
  x.rm.filter(n=>x.re.includes(n)).forEach(n=>r.add(n+' في الصباحي والمسائي معاً'));
- const mm=['cam1','cam2','cam3','sm'].flatMap(k=>x[k]);
+ const mm=[...CAMS,'sm'].flatMap(k=>x[k]);
  mm.filter((n,i)=>mm.indexOf(n)!==i).forEach(n=>r.add(n+' مكرر في الفترة الصباحية'));
  x.se.filter(n=>x.sn.includes(n)).forEach(n=>r.add(n+' في المسائي والمبيت معاً'));
  if(nx){x.sn.forEach(n=>{if(!(nx.rm.length+nx.re.length))r.add(n+' عليه مبيت يبدأ 1ص من اليوم التالي، وروتة اليوم التالي غير مخططة');else if(!(nx.rm.includes(n)||nx.re.includes(n))&&!nx.cl.includes(n))r.add(n+' غير مخطط له في اليوم التالي (إجازة أسبوعية) وعليه مبيت يبدأ 1ص');if(nx.lv[n])r.add(n+' ('+LT[nx.lv[n]]+') في اليوم التالي وعليه مبيت يبدأ 1ص')})}
- CAMS.forEach(k=>x.mc[k].forEach(n=>{if(['cam1','cam2','cam3','sm','se'].some(q=>x[q].includes(n)))r.add(n+' في مهمة خارجية وعليه تشغيل في نفس اليوم')}));
- if(wd!==undefined&&S.tpl){const t=S.tpl[wd];if(t&&t.m.length+t.e.length)[...x.rm,...x.re,...x.cam1,...x.cam2,...x.cam3,...x.sm,...x.se].filter(n=>!t.m.includes(n)&&!t.e.includes(n)&&!x.cl.includes(n)).forEach(n=>r.add(n+' في إجازته الأسبوعية (يلزم استدعاء طارئ)'))}
+ CAMS.forEach(k=>x.mc[k].forEach(n=>{if([...CAMS,'sm','se'].some(q=>x[q].includes(n)))r.add(n+' في مهمة خارجية وعليه تشغيل في نفس اليوم')}));
+ if(wd!==undefined&&S.tpl){const t=S.tpl[wd];if(t&&t.m.length+t.e.length)[...x.rm,...x.re,...x.cam1,...x.cam2,...x.cam3,...x.cam4,...x.cam5,...x.sm,...x.se].filter(n=>!t.m.includes(n)&&!t.e.includes(n)&&!x.cl.includes(n)).forEach(n=>r.add(n+' في إجازته الأسبوعية (يلزم استدعاء طارئ)'))}
  return [...r];
 }
 const monthConf=m=>{let c=0;for(let d=1;d<=dim(m);d++)c+=conf(dg(m,d),nxt(m,d),new Date(S.y,m-1,d).getDay()).length;return c};
@@ -144,7 +144,7 @@ const filled=m=>Object.keys(S.data[key(m)]||{}).length;
 
 function home(){
  mo=null;
- $('hd').innerHTML=`<h1>يوميات التشغيل</h1><button class="ib" onclick="tplView()" aria-label="الروتة الأسبوعية">📋</button><button class="ib" onclick="staffSh()" aria-label="الموظفون">👥</button><button class="ib" onclick="setSh()" aria-label="الإعدادات">⚙️</button><button class="ib" onclick="yr(1)">‹</button><b>${S.y}</b><button class="ib" onclick="yr(-1)">›</button>`;
+ $('hd').innerHTML=`<h1>يوميات التشغيل</h1><button class="ib" onclick="location.href='missions/index.html'" aria-label="دور المهمات">✈️</button><button class="ib" onclick="tplView()" aria-label="الروتة الأسبوعية">📋</button><button class="ib" onclick="staffSh()" aria-label="الموظفون">👥</button><button class="ib" onclick="setSh()" aria-label="الإعدادات">⚙️</button><button class="ib" onclick="yr(1)">‹</button><b>${S.y}</b><button class="ib" onclick="yr(-1)">›</button>`;
  let h='<div class="grid">';
  for(let m=1;m<=12;m++){const c=monthConf(m);h+=`<button class="mc${(S.y===new Date().getFullYear()&&m===new Date().getMonth()+1)?' cur':''}" onclick="openM(${m})"><b>شهر ${MN[m-1]} (${m})</b><span>${filled(m)} يوم مسجل</span>${(S.y===new Date().getFullYear()&&m===new Date().getMonth()+1)?'<br><span>● الشهر الحالي</span>':''}${c?`<br><span class="bad">${c} تعارض</span>`:''}</button>`}
  $('mn').innerHTML=h+'</div>';
@@ -154,15 +154,15 @@ function yr(n){S.y+=n;save();home()}
 function openM(m){
  try{if(!(history.state&&history.state.v==='m'))history.pushState({v:'m'},'')}catch(e){}
  mo=m;
- $('hd').innerHTML=`<button class="ib" onclick="home()" aria-label="رجوع">→</button><h1>يوميات تشغيل شهر ${MN[m-1]} (${m})</h1>`;
+ $('hd').innerHTML=`<button class="ib" onclick="home()" aria-label="رجوع">→</button><h1>يوميات تشغيل شهر ${MN[m-1]} (${m})</h1><button class="ib" onclick="location.href='missions/index.html'" aria-label="دور المهمات">✈️</button>`;
  const t=new Date();let h=`<div class="bar"><button class="btn p" onclick="genM()">توليد تلقائي</button><button onclick="sum()">الملخص</button><button onclick="tplView()">الروتة الأسبوعية</button><button onclick="tplApplySh()">تطبيق الروتة على الشهر</button><button onclick="exp()">تصدير</button></div>`;
  for(let d=1;d<=dim(m);d++){
   const x=dg(m,d),dt=new Date(S.y,m-1,d),c=conf(x,nxt(m,d),dt.getDay());
   const tod=dt.toDateString()===t.toDateString();
   const row=(k,l,v,h)=>`<div class="r"><label>${l}</label><button class="${v?'f':''}" onclick="pickF(${d},'${k}')">${v?(h||esc(v)):'＋'}</button></div>`;
   h+=`<div class="day${tod?' today':''}${x.lk?' lk':''}" id="d${d}"><div class="dh"><span>${d} · ${WD[dt.getDay()]}</span><span><small>${S.y}/${m}/${d}</small> <button class="ib" style="font-size:14px;border:1px solid var(--line);border-radius:8px" onclick="copySh(${d})">نسخ</button> <button class="ib" style="font-size:14px;border:1px solid var(--line);border-radius:8px" onclick="dayExp(${d})">تصدير</button></span></div>
-  <div class="r" style="justify-content:flex-start;padding:4px 12px;border-top:0"><button class="kb" style="flex:none;min-height:0;border:1px solid ${x.lk?'var(--pri)':'var(--line)'};border-style:solid;background:${x.lk?'var(--pri)':'none'};color:${x.lk?'var(--onp)':'var(--ink)'};border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700" onclick="lockDay(${d})">${x.lk?'🔒 مقفل — اضغط للفتح':'🔓 مفتوح — اضغط للقفل'}</button><button class="kb" style="flex:none;min-height:0;border:1px solid var(--line);border-style:solid;border-radius:8px;padding:4px 12px;font-size:13px;color:var(--bad)" onclick="dayReset(${d})">إعادة تعيين اليوم</button></div><div class="r" style="background:var(--chip);font-weight:700">الموظفون</div>${[['m','صباحي',x.rm],['e','مسائي',x.re],['o','إجازة أسبوعية',S.staff.filter(n=>x.lv[n]!=='m'&&!x.rm.includes(n)&&!x.re.includes(n))]].map(([k,l,a])=>`<div class="r"><label>${l}</label><button class="${a.length?'f':''}" onclick="dayStaff(${d},'${k}')">${a.length?a.map(n=>`<span class="nm ${k==='x'?'mx':k==='o'?'of':''}${x.cl.includes(n)?' cl':''}${k!=='o'&&prevSn(m,d).includes(n)?' nt':''}${(k==='m'||k==='e')&&useN(x,n)?' u'+Math.min(2,useN(x,n)):''}">${esc(n)}${k==='o'&&x.lv[n]?' ('+LT[x.lv[n]]+')':''}${x.cl.includes(n)?' ⚡':''}</span>`).join(''):'＋'}</button></div>`).join('')}
-  ${SL.filter(s=>!OT.includes(s.k)).map(s=>{const ms=CAMS.includes(s.k)?x.mc[s.k]:[],mi=CAMS.includes(s.k)?x.mi[s.k]:[];const h=x[s.k].map(n=>esc(n)).join('، ')+(ms.length&&x[s.k].length?'، ':'')+ms.map(n=>`<span class="bad">${esc(n)} (${esc(x.gv[n]||'مهمة خارجية')})</span>`).join('، ')+(mi.length&&(x[s.k].length||ms.length)?'، ':'')+mi.map(n=>`<span style="color:#2e9e4f;font-weight:700">${esc(n)} (${esc(x.gi[n]?'مهمة داخلية: '+x.gi[n]:'مهمة داخلية')})</span>`).join('، ');const ct=CAMS.includes(s.k)?x.ct[s.k]:null;return row(s.k,s.l+(ct&&(ct.f||ct.t)?'<br><small>من '+tp8(ct)[0]+' إلى '+tp8(ct)[1]+'</small>':''),(x[s.k].length+ms.length+mi.length)?'x':'',h)}).join('')}${row('oth','مهام أخرى',OT.some(k=>x[k].length)?'x':'',S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>`<div>${esc(n)}: ${OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k)).join(' + ')}</div>`).join(''))}
+  <div class="r" style="justify-content:flex-start;flex-wrap:wrap;gap:6px;padding:4px 12px;border-top:0"><button class="kb" style="flex:none;min-height:0;border:1px solid ${x.lk?'var(--pri)':'var(--line)'};border-style:solid;background:${x.lk?'var(--pri)':'none'};color:${x.lk?'var(--onp)':'var(--ink)'};border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700" onclick="lockDay(${d})">${x.lk?'🔒 مقفل — اضغط للفتح':'🔓 مفتوح — اضغط للقفل'}</button>${x.lk&&!(window.SYNC&&SYNC.on&&SYNC.ro)?`<button class="kb" style="flex:none;min-height:0;border:1px solid var(--pri);border-style:solid;background:none;color:var(--pri);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700" onclick="ntSend(${d})">🔔 إشعار الزملاء</button>`:''}<button class="kb" style="flex:none;min-height:0;border:1px solid var(--line);border-style:solid;border-radius:8px;padding:4px 12px;font-size:13px;color:var(--bad)" onclick="dayReset(${d})">إعادة تعيين اليوم</button></div><div class="r" style="background:var(--chip);font-weight:700">الموظفون</div>${[['m','صباحي',x.rm],['e','مسائي',x.re],['o','إجازة أسبوعية',S.staff.filter(n=>x.lv[n]!=='m'&&!x.rm.includes(n)&&!x.re.includes(n))]].map(([k,l,a])=>`<div class="r"><label>${l}</label><button class="${a.length?'f':''}" onclick="dayStaff(${d},'${k}')">${a.length?a.map(n=>`<span class="nm ${k==='x'?'mx':k==='o'?'of':''}${x.cl.includes(n)?' cl':''}${k!=='o'&&prevSn(m,d).includes(n)?' nt':''}${(k==='m'||k==='e')&&useN(x,n)?' u'+Math.min(2,useN(x,n)):''}">${esc(n)}${k==='o'&&x.lv[n]?' ('+LT[x.lv[n]]+')':''}${x.cl.includes(n)?' ⚡':''}</span>`).join(''):'＋'}</button></div>`).join('')}
+  ${SL.filter(s=>!OT.includes(s.k)&&(!XC.includes(s.k)||camU(x,s.k))).map(s=>{const ms=CAMS.includes(s.k)?x.mc[s.k]:[],mi=CAMS.includes(s.k)?x.mi[s.k]:[];const h=x[s.k].map(n=>esc(n)).join('، ')+(ms.length&&x[s.k].length?'، ':'')+ms.map(n=>`<span class="bad">${esc(n)} (${esc(x.gv[n]||'مهمة خارجية')})</span>`).join('، ')+(mi.length&&(x[s.k].length||ms.length)?'، ':'')+mi.map(n=>`<span style="color:#2e9e4f;font-weight:700">${esc(n)} (${esc(x.gi[n]?'مهمة داخلية: '+x.gi[n]:'مهمة داخلية')})</span>`).join('، ');const ct=CAMS.includes(s.k)?x.ct[s.k]:null;return (s.k==='sm'?addCamRow(d,x):'')+row(s.k,s.l+(ct&&(ct.f||ct.t)?'<br><small>من '+tp8(ct)[0]+' إلى '+tp8(ct)[1]+'</small>':''),(x[s.k].length+ms.length+mi.length)?'x':'',h)}).join('')}${row('oth','مهام أخرى',OT.some(k=>x[k].length)?'x':'',S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>`<div>${esc(n)}: ${OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k)).join(' + ')}</div>`).join(''))}
   ${row('lv','نوع الإجازة',Object.entries(x.lv).filter(([n,t])=>t!=='m').length?'x':'',Object.entries(x.lv).filter(([n,t])=>t!=='m').map(([n,t])=>`<span style="${t==='m'?'color:var(--bad);font-weight:700':''}">${esc(n)} (${LT[t]}${x.lr[n]?' '+x.lr[n].nd+' يوم':''})</span>`).join('، '))}
   <div class="r"><label>ملاحظات</label><input value="${esc(x.note)}" onchange="note(${d},this.value)"></div>
   ${(()=>{const i=infoN(m,d,x);return i.length?`<div class="inf">${i.map(esc).join('<br>')}</div>`:''})()}${(()=>{const i=idleN(m,d,x);return i.length?`<div class="idle">${i.map(esc).join('<br>')}</div>`:''})()}${c.length?`<div class="cf">${c.map(esc).join('<br>')}</div>`:''}</div>`;
@@ -170,11 +170,12 @@ function openM(m){
  $('mn').innerHTML=h;
  if(new Date().getFullYear()===S.y&&new Date().getMonth()+1===m){const e=$('d'+new Date().getDate());e&&e.scrollIntoView()}
 }
+function addCamRow(d,x){const k=XC.find(c=>!camU(x,c));if(!k)return'';return`<div class="r"><label></label><button style="border-style:dashed;color:var(--mut)" onclick="pickF(${d},'${k}')">＋ إضافة كاميرا ${k.slice(3)}</button></div>`}
 function note(d,v){if(isLk(d))return;const x=dg(mo,d);x.note=v;ds(mo,d,x)}
 function refresh(d){const y=scrollY;openM(mo);scrollTo(0,y)}
 
 function isLk(d){return !!dg(mo,d).lk}
-function lockDay(d){const x=dg(mo,d);x.lk=!x.lk;ds(mo,d,x);refresh();toast(x.lk?'تم قفل اليوم':'تم فتح اليوم')}
+function lockDay(d){const x=dg(mo,d);x.lk=!x.lk;ds(mo,d,x);refresh();toast(x.lk?'تم قفل اليوم — اضغط 🔔 لإشعار الزملاء':'تم فتح اليوم')}
 function pickF(d,k){
  if(isLk(d)){toast('اليوم مقفل — افتحه أولاً');return}
  const x=dg(mo,d);
@@ -237,7 +238,7 @@ function genOld(){
 function stats(m){
  const o={};S.staff.forEach(s=>o[s]={cam:0,sm:0,se:0,sn:0,a:0,e:0,s:0,c:0,m:0,mi:0});
  for(let d=1;d<=dim(m);d++){const x=dg(m,d);
-  ['cam1','cam2','cam3'].forEach(k=>x[k].forEach(n=>o[n]&&o[n].cam++));
+  CAMS.forEach(k=>x[k].forEach(n=>o[n]&&o[n].cam++));
   ['sm','se','sn'].forEach(k=>x[k].forEach(n=>o[n]&&o[n][k]++));CAMS.forEach(k=>x.mc[k].forEach(n=>o[n]&&o[n].m++));CAMS.forEach(k=>x.mi[k].forEach(n=>o[n]&&o[n].mi++));
   Object.entries(x.lv).forEach(([n,t])=>{if(o[n]&&!(x.lr[n]&&t!=='c'&&wkOff(n,new Date(S.y,m-1,d).getDay())))o[n][t]++});}
  return o;
@@ -268,10 +269,13 @@ function staffSh(){
 function addS(){const v=$('ns').value.trim();if(!v||S.staff.includes(v))return;S.staff.push(v);save();staffSh()}
 function delS(i){ask('حذف '+S.staff[i]+'؟ سيبقى اسمه في الأيام المسجلة سابقاً.',[['حذف',()=>{S.staff.splice(i,1);save();staffSh()}],['إلغاء',staffSh]])}
 
+function camU(x,k){return x[k].length||x.mc[k].length||x.mi[k].length}
 function rows(){
- const o=[['م','اليوم','التاريخ','صباحي','مسائي','كاميرا 1','كاميرا 2','كاميرا 3','ستوديو صباحي','ستوديو مسائي','ستوديو مبيت','الإجازات','ملاحظات','مهام أخرى']];
- for(let d=1;d<=dim(mo);d++){const x=dg(mo,d),dt=new Date(S.y,mo-1,d);
-  o.push([d,WD[dt.getDay()],`${S.y}/${mo}/${d}`,x.rm.join(' '),x.re.join(' '),[...x.cam1,...x.mc.cam1.map(n=>n+'('+(x.gv[n]||'مهمة')+')'),...x.mi.cam1.map(n=>n+'(داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')].join(' ')+tmx(x,'cam1'),[...x.cam2,...x.mc.cam2.map(n=>n+'('+(x.gv[n]||'مهمة')+')'),...x.mi.cam2.map(n=>n+'(داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')].join(' ')+tmx(x,'cam2'),[...x.cam3,...x.mc.cam3.map(n=>n+'('+(x.gv[n]||'مهمة')+')'),...x.mi.cam3.map(n=>n+'(داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')].join(' ')+tmx(x,'cam3'),x.sm.join(' '),x.se.join(' '),x.sn.join(' '),Object.entries(x.lv).map(([n,t])=>lvTxt(x,n,t)).join(' | '),x.note,S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>n+': '+OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k)).join('+')).join(' | ')]);}
+ const N=dim(mo),cc=(x,k)=>[...x[k],...x.mc[k].map(n=>n+'('+(x.gv[n]||'مهمة')+')'),...x.mi[k].map(n=>n+'(داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')].join(' ')+tmx(x,k);
+ const cs=CAMS.filter(k=>!['cam4','cam5'].includes(k)||Array.from({length:N},(_,i)=>dg(mo,i+1)).some(x=>camU(x,k)));
+ const o=[['م','اليوم','التاريخ','صباحي','مسائي',...cs.map(k=>'كاميرا '+k.slice(3)),'ستوديو صباحي','ستوديو مسائي','ستوديو مبيت','الإجازات','ملاحظات','مهام أخرى']];
+ for(let d=1;d<=N;d++){const x=dg(mo,d),dt=new Date(S.y,mo-1,d);
+  o.push([d,WD[dt.getDay()],`${S.y}/${mo}/${d}`,x.rm.join(' '),x.re.join(' '),...cs.map(k=>cc(x,k)),x.sm.join(' '),x.se.join(' '),x.sn.join(' '),Object.entries(x.lv).map(([n,t])=>lvTxt(x,n,t)).join(' | '),x.note,S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>n+': '+OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k)).join('+')).join(' | ')]);}
  return o;
 }
 function exp(){
@@ -288,7 +292,7 @@ const txt=()=>rows().map(r=>r.join('\t')).join('\n');
 function cp(){const t=txt();const ok=()=>toast('تم النسخ');
  if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,fb);else fb();
  function fb(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('تعذر النسخ')}a.remove()}}
-function shr(){const t=rows().slice(1).map(r=>`${r[0]} ${r[1]}: ص ${r[3]} | م ${r[4]} | ك1 ${r[5]} ك2 ${r[6]} ك3 ${r[7]} | ستوديو ${r[8]}/${r[9]}/${r[10]}${r[11]?' | إجازات '+r[11]:''}${r[12]?' | ملاحظات '+r[12]:''}`).join('\n');
+function shr(){const R=rows(),H=R[0],I=n=>H.indexOf(n),ci=H.map((h,i)=>h.startsWith('كاميرا ')?i:-1).filter(i=>i>=0);const t=R.slice(1).map(r=>`${r[0]} ${r[1]}: ص ${r[3]} | م ${r[4]} | ${ci.map(i=>'ك'+H[i].slice(7)+' '+r[i]).join(' ')} | ستوديو ${r[I('ستوديو صباحي')]}/${r[I('ستوديو مسائي')]}/${r[I('ستوديو مبيت')]}${r[I('الإجازات')]?' | إجازات '+r[I('الإجازات')]:''}${r[I('ملاحظات')]?' | ملاحظات '+r[I('ملاحظات')]:''}`).join('\n');
  if(navigator.share)navigator.share({title:'يوميات تشغيل شهر '+MN[mo-1],text:t}).catch(()=>{});else{navigator.clipboard&&navigator.clipboard.writeText(t);toast('تم نسخ النص')}}
 
 function genM(){ask('سيُعاد توزيع هذا الشهر: الصباحي والمسائي من الروتة الأسبوعية، ثم التشغيل من أسماء كل شيفت. تبقى الإجازات والملاحظات. متابعة؟',[['متابعة',genGo],['إلغاء']])}
@@ -296,7 +300,7 @@ function genGo(){
  const n=S.staff.length,N=dim(mo),load={},X={},ix=s=>S.staff.indexOf(s);
  S.staff.forEach(s=>load[s]=0);
  for(let d=1;d<=N;d++){if(dg(mo,d).lk){X[d]=dg(mo,d);continue}const x=dg(mo,d),av=S.staff.filter(s=>!x.lv[s]).sort((a,b)=>(ix(a)+d)%n-(ix(b)+d)%n),h=Math.ceil(av.length/2);
-  {const t=S.tpl[new Date(S.y,mo-1,d).getDay()],pm=x.rm.filter(n=>x.cl.includes(n)),pe=x.re.filter(n=>x.cl.includes(n));x.rm=[...t.m.filter(s=>!x.lv[s]),...pm.filter(n=>!t.m.includes(n))];x.re=[...t.e.filter(s=>!x.lv[s]),...pe.filter(n=>!t.e.includes(n))]}['cam1','cam2','cam3','sm','se','sn'].forEach(k=>x[k]=[]);X[d]=x}
+  {const t=S.tpl[new Date(S.y,mo-1,d).getDay()],pm=x.rm.filter(n=>x.cl.includes(n)),pe=x.re.filter(n=>x.cl.includes(n));x.rm=[...t.m.filter(s=>!x.lv[s]),...pm.filter(n=>!t.m.includes(n))];x.re=[...t.e.filter(s=>!x.lv[s]),...pe.filter(n=>!t.e.includes(n))]}[...CAMS,'sm','se','sn'].forEach(k=>x[k]=[]);X[d]=x}
  const t0=new Date(S.y,mo-1,0);let ps=dgY(t0.getFullYear(),t0.getMonth()+1,t0.getDate()).sn;
  for(let d=1;d<=N;d++){const x=X[d],nx=d<N?X[d+1]:nxt(mo,d),used=new Set();if(x.lk){ps=x.sn;continue}
   [['sn',nx.re.filter(s=>!nx.lv[s])],['se',x.re],['sm',x.rm],['cam1',x.rm],['cam2',x.rm],['cam3',x.rm]].forEach(([k,pool])=>{
@@ -407,7 +411,7 @@ function dayTxt(d){
  const x=dg(mo,d),dt=new Date(S.y,mo-1,d),sp='============',pad='                ';
  const blk=(l,a)=>a.length?l+': '+a[0]+a.slice(1).map(n=>'\n'+pad+n).join(''):'';
  const bl=[];
- CAMS.forEach((k,i)=>{const a=[...x[k],...x.mc[k].map(n=>n+' ('+(x.gv[n]||'مهمة خارجية')+')'),...x.mi[k].map(n=>n+' ('+(x.gi[n]||'مهمة داخلية')+')')];if(a.length){const t=tmRaw(x,k),L=['كاميرا '+(i+1)+': '+a[0]],rest=a.slice(1);if(t)L.push('\u200F'+t+(rest.length?'   '+rest.shift():''));rest.forEach(n=>L.push(pad+n));bl.push(L.join('\n'))}});
+ CAMS.forEach((k,i)=>{const a=[...x[k],...x.mc[k].map(n=>n+' ('+(x.gv[n]||'مهمة خارجية')+')'),...x.mi[k].map(n=>n+' (مهمة داخلية'+(x.gi[n]?' — '+x.gi[n]:'')+')')];if(a.length){const t=tmRaw(x,k),L=['كاميرا '+(i+1)+': '+a[0]],rest=a.slice(1);if(t)L.push('\u200F'+t+(rest.length?'   '+rest.shift():''));rest.forEach(n=>L.push(pad+n));bl.push(L.join('\n'))}});
  const st=[['sm','ستوديو صباحي'],['se','ستوديو مسائي'],['sn','ستوديو مبيت']].map(([k,l])=>blk(l,x[k])).filter(Boolean);
  if(st.length)bl.push(st.join('\n'));
  {const ot=S.staff.filter(n=>OT.some(k=>x[k].includes(n))).map(n=>n+': '+OT.filter(k=>x[k].includes(n)).map(k=>otL(x,k,true)).join(' + '));if(ot.length)bl.push('مهام أخرى:\n'+ot.join('\n'))}
@@ -423,9 +427,9 @@ function arT(t){return String(Number(t.split(':')[0]))+':'+t.split(':')[1].padSt
 function arD(s){return s.replace(/\d/g,c=>String.fromCharCode(1632+Number(c)))}
 function tmLine(x,k){const c=x.ct[k];if(!(c&&(c.f||c.t)))return '';const p=tp8(c);return '\n\u200F'+arD(arT(p[0])+' _ '+arT(p[1]))}
 function tmRaw(x,k){const c=x.ct[k];if(!(c&&(c.f||c.t)))return '';const p=tp8(c);return arD(arT(p[0])+' _ '+arT(p[1]))}
-function useN(x,n,ex){let c=0;['cam1','cam2','cam3','sm','se','sn',...OT].forEach(k=>{if(k!==ex&&x[k].includes(n))c++});CAMS.forEach(k=>{if(k!==ex&&(x.mc[k].includes(n)||x.mi[k].includes(n)))c++});return c}
+function useN(x,n,ex){let c=0;[...CAMS,'sm','se','sn',...OT].forEach(k=>{if(k!==ex&&x[k].includes(n))c++});CAMS.forEach(k=>{if(k!==ex&&(x.mc[k].includes(n)||x.mi[k].includes(n)))c++});return c}
 function prevSn(m,d){const t=new Date(S.y,m-1,d-1);return dgY(t.getFullYear(),t.getMonth()+1,t.getDate()).sn}
-function dblN(m,d,x){return prevSn(m,d).filter(n=>['cam1','cam2','cam3','sm','se',...OT].some(k=>x[k].includes(n))||CAMS.some(k=>x.mc[k].includes(n)||x.mi[k].includes(n)))}
+function dblN(m,d,x){return prevSn(m,d).filter(n=>[...CAMS,'sm','se',...OT].some(k=>x[k].includes(n))||CAMS.some(k=>x.mc[k].includes(n)||x.mi[k].includes(n)))}
 let OS=null;
 function otSh(d){if(isLk(d)){toast('اليوم مقفل — افتحه أولاً');return}OS={d,x:JSON.parse(JSON.stringify(dg(mo,d))),k:OT[0]};OS.x.ot=OS.x.ot||{};osDraw()}
 function osDraw(){const x=OS.x,L=k=>SL.find(s=>s.k===k).l,base=[...new Set([...x.rm,...x.re])],pool=base.length?base:S.staff;
@@ -439,7 +443,7 @@ function ask(msg,bt){AK=bt;$('pn').innerHTML=`<h2>تأكيد</h2><p style="margi
 function askGo(i){const f=AK[i][1];closeSh();if(f)f()}
 function dayReset(d){if(isLk(d)){toast('اليوم مقفل — افتحه أولاً');return}const x=dg(mo,d);
  ask('سيُفرَّغ يوم '+d+' بالكامل: الصباحي والمسائي والتشغيل والمهام والملاحظات. متابعة؟',[['متابعة',()=>{const go=k=>{const y=blank();if(k){y.lv=x.lv;y.lr=x.lr}ds(mo,d,y);refresh();toast('تم تفريغ اليوم')};if(Object.keys(x.lv).length)ask('توجد إجازات مسجلة في هذا اليوم. ماذا تفعل بها؟',[['إبقاء الإجازات',()=>go(1)],['مسح الإجازات أيضاً',()=>go(0)],['إلغاء']]);else go(0)}],['إلغاء']])}
-function idleN(m,d,x){if(!(['cam1','cam2','cam3','sm','se','sn',...OT].some(k=>x[k].length)||CAMS.some(k=>x.mc[k].length||x.mi[k].length)))return [];const p=prevSn(m,d);return [...new Set([...x.rm,...x.re])].filter(n=>!p.includes(n)&&!x.lv[n]&&useN(x,n)===0).map(n=>n+': بلا مهمة عمل — يُعتبر خارج الخدمة')}
+function idleN(m,d,x){if(!([...CAMS,'sm','se','sn',...OT].some(k=>x[k].length)||CAMS.some(k=>x.mc[k].length||x.mi[k].length)))return [];const p=prevSn(m,d);return [...new Set([...x.rm,...x.re])].filter(n=>!p.includes(n)&&!x.lv[n]&&useN(x,n)===0).map(n=>n+': بلا مهمة عمل — يُعتبر خارج الخدمة')}
 function camPer(x,k){const c=x.ct&&x.ct[k];if(!(c&&(c.f||c.t)))return 'm';const hr=Number(tp8(c)[0].split(':')[0]);return hr>=12||hr<5?'e':'m'}
 function infoN(m,d,x){const r=[],p=prevSn(m,d),dbl=dblN(m,d,x),t=S.tpl&&S.tpl[new Date(S.y,m-1,d).getDay()];
  p.filter(n=>!dbl.includes(n)).forEach(n=>r.push(n+': عمل مبيت (1ص–9ص) — خارج الخدمة اليوم'));
@@ -482,7 +486,7 @@ function spanOf(n,t,s,nd){if(t==='c')return nd;const d0=new Date(s+'T00:00');let
 function shn(n){return n.replace(/^[^/]*\/\s*/,'')}
 function mstat(m){
  const N=dim(m),o={};S.staff.forEach(n=>o[n]={cam:0,sm:0,se:0,sn:[],oth:0,roster:0,idle:0,cl:[],dbl:[],ms:{},mi:[],mip:{},lv:{a:0,e:0,s:0,c:0}});
- for(let d=1;d<=N;d++){const x=dg(m,d),wd=new Date(S.y,m-1,d).getDay(),p=prevSn(m,d),db=dblN(m,d,x),any=['cam1','cam2','cam3','sm','se','sn',...OT].some(k=>x[k].length)||CAMS.some(k=>x.mc[k].length||x.mi[k].length);
+ for(let d=1;d<=N;d++){const x=dg(m,d),wd=new Date(S.y,m-1,d).getDay(),p=prevSn(m,d),db=dblN(m,d,x),any=[...CAMS,'sm','se','sn',...OT].some(k=>x[k].length)||CAMS.some(k=>x.mc[k].length||x.mi[k].length);
   S.staff.forEach(n=>{const v=o[n],inR=x.rm.includes(n)||x.re.includes(n);
    if(inR)v.roster++;
    CAMS.forEach(k=>{if(x.mi[k].includes(n)){const pl=x.gi[n];if(pl){v.mip[pl]=v.mip[pl]||[];if(!v.mip[pl].includes(d))v.mip[pl].push(d)}}if(x.mi[k].includes(n)&&!v.mi.includes(d))v.mi.push(d);if(x[k].includes(n))v.cam++;if(x.mc[k].includes(n)){const g=x.gv[n]||'مهمة خارجية';v.ms[g]=v.ms[g]||[];if(!v.ms[g].includes(d))v.ms[g].push(d)}});
@@ -606,7 +610,7 @@ async function wordX(){
  if(!window.JSZip){toast('تعذر تحميل مكتبة Word');return}
  let dl=null;try{dl=await claude.use('downloads')}catch(e){}
  if(!dl){toast('الحفظ غير متاح هنا، استخدم النسخ أو الطباعة');return}
- const r=rows(),w=[400,800,1100,1700,1700,900,900,900,1000,1000,1000,1400,1000,1300];
+ const r=rows(),WM={'م':400,'اليوم':800,'التاريخ':1100,'صباحي':1700,'مسائي':1700,'ستوديو صباحي':1000,'ستوديو مسائي':1000,'ستوديو مبيت':1000,'الإجازات':1400,'ملاحظات':1000,'مهام أخرى':1300},w=r[0].map(h=>WM[h]||(r[0].length>14?800:900));
  const q=s=>String(s==null?'':s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/\n/g,'</w:t><w:br/><w:t xml:space="preserve">');
  const cell=(t,i,h)=>`<w:tc><w:tcPr><w:tcW w:w="${w[i]}" w:type="dxa"/>${h?'<w:shd w:val="clear" w:color="auto" w:fill="DCE6F2"/>':''}</w:tcPr><w:p><w:pPr><w:bidi/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>${h?'<w:b/><w:bCs/>':''}<w:sz w:val="16"/><w:szCs w:val="16"/><w:rtl/></w:rPr><w:t xml:space="preserve">${q(t)}</w:t></w:r></w:p></w:tc>`;
  const bd=['top','left','bottom','right','insideH','insideV'].map(s=>`<w:${s} w:val="single" w:sz="4" w:space="0" w:color="999999"/>`).join('');
@@ -620,7 +624,7 @@ async function wordX(){
  const blob=await z.generateAsync({type:'blob'});
  try{await dl.save({filename:`shifts-${S.y}-${mo}.docx`,data:blob});toast('تم تجهيز ملف Word')}catch(e){if(!(e&&e.code==='declined'))toast('تعذر حفظ الملف: '+((e&&(e.code||e.message))||e))}
 }
-const APPV='1.0.0';
+const APPV='1.1.0';
 function bkJson(){return JSON.stringify({app:'yawmiyat',v:1,at:new Date().toISOString(),S})}
 function bkView(){showTxt('نسخة احتياطية (انسخها واحفظها)',bkJson(),'setSh()')}
 function rsView(){$('pn').innerHTML=`<h2>استعادة نسخة احتياطية</h2><p style="margin:0 0 8px;font-size:13px;color:var(--mut)">الصق النص الذي نسخته من «نسخة احتياطية». سيستبدل البيانات الحالية.</p><textarea id="rsT" style="width:100%;height:220px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin-bottom:10px" placeholder="الصق هنا"></textarea><div class="bar"><button class="btn p" onclick="rsGo()">استعادة</button><button onclick="setSh()">رجوع</button></div>`;$('sh').classList.add('on')}
@@ -632,6 +636,8 @@ function setSh(){const sy=window.SYNC;let h='<h2>الإعدادات</h2>';
  if(sy&&sy.on){h+=`<div style="padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;font-size:14px;line-height:1.8"><b>${esc(sy.name||sy.user||'')}</b><br><span style="color:var(--mut)">${esc(sy.user||'')}</span><br>الصلاحية: <b>${sy.role==='owner'?'مالك':sy.role==='editor'?'محرر':'اطلاع فقط'}</b><br>المزامنة: <b id="syS">${esc(sy.label())}</b></div>`}
  h+='<div class="bar" style="flex-direction:column">';
  if(sy&&sy.on)h+='<button class="btn" onclick="SYNC.now()">مزامنة الآن</button>';
+ h+=`<button class="btn" onclick="ntList()">🔔 سجل الإشعارات${NTL.length?' ('+NTL.length+')':''}</button>`;
+ if('Notification' in window&&Notification.permission!=='granted')h+='<button class="btn" onclick="ntPerm()">تفعيل إشعارات الموبايل</button>';
  if(sy&&sy.on&&sy.role==='owner')h+='<button class="btn" onclick="rolesView()">إدارة الصلاحيات</button>';
  h+='<button class="btn" onclick="bkView()">نسخة احتياطية (نسخ)</button>';
  if(!(sy&&sy.on&&sy.ro))h+='<button class="btn" onclick="rsView()">استعادة نسخة احتياطية</button>';
@@ -713,6 +719,40 @@ async function roleSet(id,patch){try{const r=await api('/rest/v1/profiles?id=eq.
 async function checkUpd(manual){try{const r=await fetch('version.json?'+Date.now(),{cache:'no-store'});const j=await r.json();
  if(j.v&&j.v!==APPV){ask('يوجد إصدار جديد '+j.v+' (الحالي '+APPV+'). تحديث الآن؟',[['تحديث',doUpd],['لاحقًا',manual?()=>setSh():null]])}else if(manual){toast('أنت على آخر إصدار')}}catch(e){if(manual)toast('تعذر التحقق (لا يوجد اتصال)')}}
 async function doUpd(){try{if(window.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(x=>x.unregister()))}}catch(e){}location.replace(location.pathname+'?u='+Date.now())}
+
+/* ===== إشعارات الزملاء: لا تُرسل إلا بضغط المحرر على 🔔 بعد قفل اليوم ===== */
+let NTA=null;try{NTA=localStorage.getItem('yw_ntat')}catch(e){}
+if(!NTA){NTA=new Date().toISOString();try{localStorage.setItem('yw_ntat',NTA)}catch(e){}}
+let NTL=[];try{NTL=JSON.parse(localStorage.getItem('yw_ntl'))||[]}catch(e){}
+const ntSave=()=>{try{localStorage.setItem('yw_ntl',JSON.stringify(NTL.slice(0,30)));localStorage.setItem('yw_ntat',NTA)}catch(e){}};
+let ACX=null;
+document.addEventListener('pointerdown',()=>{try{if(!ACX)ACX=new(window.AudioContext||window.webkitAudioContext)();if(ACX.state==='suspended')ACX.resume()}catch(e){}},true);
+function ring(){try{if(ACX){const t=ACX.currentTime;[[880,0],[1175,.18],[1568,.36]].forEach(([f,o])=>{const g=ACX.createGain(),os=ACX.createOscillator();os.type='sine';os.frequency.value=f;g.gain.setValueAtTime(0,t+o);g.gain.linearRampToValueAtTime(.3,t+o+.02);g.gain.exponentialRampToValueAtTime(.001,t+o+.6);os.connect(g);g.connect(ACX.destination);os.start(t+o);os.stop(t+o+.65)})}}catch(e){}try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
+const ntWhen=n=>{const t=new Date(n.at);return t.toLocaleDateString('ar-EG',{day:'numeric',month:'short'})+' '+t.toLocaleTimeString('ar-EG',{hour:'numeric',minute:'2-digit'})};
+function ntShow(n,demo){ring();
+ let b=$('ntb');if(!b){b=document.createElement('div');b.id='ntb';b.style.cssText='position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:8px;right:8px;z-index:200;background:var(--card);color:var(--ink);border:2px solid var(--pri);border-radius:14px;padding:12px 14px;box-shadow:0 8px 24px #0005;max-width:560px;margin:auto';document.body.appendChild(b)}
+ b.innerHTML=`<div style="font-weight:700;margin-bottom:4px">🔔 ${demo?'هكذا سيظهر عند زملائك':'إشعار من '+esc(n.by||'زميل')}</div><div style="margin-bottom:10px">${esc(n.msg)}</div><div class="bar" style="margin:0"><button class="btn p" onclick="ntGo(${n.y},${n.m},${n.d})">عرض اليوم</button><button class="btn" onclick="$('ntb').remove()">إغلاق</button></div>`;
+ if(!demo&&'Notification' in window&&Notification.permission==='granted'){const o={body:n.msg,tag:n.id,vibrate:[200,100,200],icon:undefined};
+  (navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration():Promise.resolve(null)).then(r=>{if(r&&r.showNotification)return r.showNotification('يوميات التشغيل',o);new Notification('يوميات التشغيل',o)}).catch(()=>{try{new Notification('يوميات التشغيل',o)}catch(e){}})}}
+function ntGo(y,m,d){const b=$('ntb');if(b)b.remove();closeSh();if(S.y!==y){S.y=y;save()}openM(m);setTimeout(()=>{const e=$('d'+d);e&&e.scrollIntoView()},50)}
+function ntSend(d){const dt=new Date(S.y,mo-1,d),sy=window.SYNC,by=sy&&sy.on?(sy.name||sy.user||''):'';
+ const msg='تم اعتماد تشغيل يوم '+WD[dt.getDay()]+' '+d+'/'+mo+'/'+S.y+(by?' — '+by:'');
+ $('pn').innerHTML=`<h2>🔔 إشعار الزملاء</h2><p style="margin:0 0 8px;font-size:13px;color:var(--mut)">سيصل هذا الإشعار لكل من يستخدم التطبيق، مع رنة. يمكنك تعديل النص.</p><textarea id="ntT" style="width:100%;height:90px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin-bottom:10px">${esc(msg)}</textarea><div class="bar"><button class="btn p" onclick="ntDo(${d})">إرسال الإشعار</button><button class="btn" onclick="closeSh()">إلغاء</button></div>`;$('sh').classList.add('on')}
+async function ntDo(d){const sy=window.SYNC,msg=($('ntT').value||'').trim();if(!msg){toast('اكتب نص الإشعار');return}
+ const n={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),msg,y:S.y,m:mo,d,by:sy&&sy.on?(sy.name||sy.user||''):'أنت',uid:SESS?SESS.uid:'',at:new Date().toISOString()};
+ if(sy&&sy.on){if(sy.ro){toast('للاطلاع فقط');return}
+  try{const r=await api('/rest/v1/kv?on_conflict=key',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'nt:'+n.id,value:n,updated_at:n.at,updated_by:SESS.uid}])});if(!r.ok)throw 0;
+   NTL.unshift(Object.assign({sent:1},n));ntSave();closeSh();toast('تم إرسال الإشعار للزملاء')}catch(e){toast('تعذر الإرسال — تأكد من الاتصال')}}
+ else{NTL.unshift(Object.assign({sent:1},n));ntSave();closeSh();toast('نسخة تجريبية: لا يوجد زملاء متصلون، وهذه معاينة للإشعار');setTimeout(()=>ntShow(n,1),900)}}
+let ntBusy=false;
+async function ntPull(){if(ntBusy||!(window.SYNC&&SYNC.on)||!SESS)return;ntBusy=true;
+ try{const r=await api('/rest/v1/kv?select=key,value,updated_at&key=like.nt:*&updated_at=gt.'+encodeURIComponent(NTA)+'&order=updated_at.asc');if(r.ok){const rows=await r.json();let last=null;
+  for(const w of rows){if(w.updated_at>NTA)NTA=w.updated_at;const n=w.value||{};if(n.uid===SESS.uid||NTL.some(z=>z.id===n.id))continue;NTL.unshift(n);last=n}
+  ntSave();if(last)ntShow(last)}}catch(e){}ntBusy=false}
+setInterval(ntPull,20000);setTimeout(ntPull,4000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)ntPull()});
+function ntList(){$('pn').innerHTML='<h2>🔔 سجل الإشعارات</h2>'+(NTL.length?NTL.map(n=>`<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px"><div style="font-size:12px;color:var(--mut)">${n.sent?'أرسلته أنت':'من '+esc(n.by||'زميل')} · ${ntWhen(n)}</div><div>${esc(n.msg)}</div><button class="btn" style="margin-top:6px" onclick="ntGo(${n.y},${n.m},${n.d})">عرض اليوم</button></div>`).join(''):'<p style="color:var(--mut)">لا توجد إشعارات بعد.</p>')+'<div class="bar"><button class="btn" onclick="setSh()">رجوع</button></div>';$('sh').classList.add('on')}
+async function ntPerm(){try{const r=await Notification.requestPermission();toast(r==='granted'?'تم تفعيل إشعارات الموبايل':'لم يتم السماح بالإشعارات من المتصفح')}catch(e){toast('الإشعارات غير مدعومة هنا')}setSh()}
 if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 if(SESS)afterLogin();else showLogin();
 
